@@ -1,20 +1,20 @@
 let numSquares = 6
-console.log(">>numSquares ", numSquares)
+const colors = []
+let pickedColor = 0
+const squares = document.querySelectorAll(".square")
+const displayColor = document.querySelector('#color-display')
+const messageDisplay = document.querySelector('#message')
+const easyMode = document.querySelector("#easy-mode")
+let resetButton = document.querySelector("#reset")
 
-let easyMode = document.querySelector("#easy-mode")
-easyMode.addEventListener('click', () => {
-	numSquares = 3
-	window.location.reload();
-	createSquares(numSquares)
-	
-})
-
-let colors = []
-for (let i = 0; i < numSquares; i++) {
-	colors.push(colorGenerator())
+function colorHandler() {
+	colorGenerator()
+	pushColorsToArray()
+	pickedColor = colors[randomColor()]
+	displayColor.innerHTML = `${pickedColor}`
 }
+colorHandler()
 
-let squares = document.querySelectorAll(".square")
 function createSquares(numSquares) {
 	for (let i = 0; i < numSquares; i++) {	
 		squares[i].style.backgroundColor = colors[i]
@@ -40,17 +40,17 @@ function colorGenerator() {
 	return `rgb(${r}, ${g}, ${b})`
 }
 
-const pickedColor = colors[randomColor()]
 function randomColor() {
 	const random = Math.floor(Math.random() * colors.length)
 
 	return random
 }
 
-const messageDisplay = document.querySelector('#message')
-const displayColor = document.querySelector('#color-display')
-
-displayColor.innerHTML = `${pickedColor}`
+function pushColorsToArray() {
+	for (let i = 0; i < numSquares; i++) {
+		colors.push(colorGenerator())
+	}
+}
 
 function correctColor(color) {
 	messageDisplay.textContent = "GOTCHAA!"
@@ -64,8 +64,9 @@ function wrongColor() {
 	messageDisplay.textContent = "Try again!"
 }
 
-
-let resetButton = document.querySelector("#reset")
-resetButton.addEventListener('click', () => {
-	window.location.reload();	
-})
+function reset() {
+	resetButton.addEventListener('click', () => {
+		window.location.reload();	
+	})
+}
+reset()
